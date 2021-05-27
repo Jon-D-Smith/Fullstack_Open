@@ -41,15 +41,15 @@ function App() {
 
     
 
-const Total = ({parts}) => {
+const Total = ({course}) => {
   return(
 <p>Number of exercises {course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises}</p>
   )}
   return (
     <div className="App">
       <Header course={course} />
-      <Content parts={course}/>
-      <Total parts={course} />
+      <Content course={course}/>
+      <Total course={course} />
     </div>
   );
 }
