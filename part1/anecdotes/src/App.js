@@ -12,12 +12,21 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [previous, setPrevious] = useState(0)
+  const [votes, setVotes] = useState([
+    0,1,2,3,4,5
+  ])
 
+  const Vote = ({votes}) => {
+    return(
+      <p>Has {votes} votes</p>
+    )
+  }
   const Anecdote = () => {
     return(
-      <p>
-        {anecdotes[selected]}
-      </p>
+      <>
+        <p>{anecdotes[selected]}</p>
+        <Vote votes={votes[selected]} />
+      </>
     )
   }
 
@@ -26,7 +35,7 @@ const App = () => {
     <button onClick={handleClick}>{text}</button>
     )}
 
-    const randomAnecdote = () => {
+  const randomAnecdote = () => {
       let randomNumber = Math.floor(Math.random() * anecdotes.length)
       while(randomNumber === previous){
         randomNumber = Math.floor(Math.random() * anecdotes.length)
@@ -37,9 +46,16 @@ const App = () => {
     }
     
 
+   const handleVoting = () =>{
+     const voteCopy = [...votes]
+     voteCopy[selected]+=1
+     setVotes(voteCopy)
+   }
+
   return (
     <div>
       <Anecdote />
+      <Button text="vote" handleClick={ handleVoting } />
       <Button text="next anecdote" handleClick={randomAnecdote } />
     </div>
   )
