@@ -12,52 +12,56 @@ function App() {
     return(
     <button onClick={handleClick}>{text}</button>
     )}
-  const handleGoodClick = () => {
-    return (
-    setGood(good + 1)
-    )
-  }
-  const handleNeutralClick = () => {
-    return(
-    setNeutral(neutral + 1)
-    )
-  }
-  const handleBadClick = () => {
-    return(
-    setBad(bad + 1)
-    )}
 
-  const Content = ({good, neutral, bad}) => {
+
+  const Content = () => {
     
     return(
     <>
     <h1>Give Feedback</h1>
-     <Button handleClick={handleGoodClick} text="good" />
-     <Button handleClick={handleNeutralClick} text="neutral" />
-     <Button handleClick={handleBadClick} text="bad" />
-    <p>good {good}</p>
-    <p>neutral {neutral}</p>
-    <p>bad {bad}</p>
-    <p>all {good + neutral + bad}</p>
-    
+     <Button handleClick={() => setGood(good + 1)} text="good" />
+     <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
+     <Button handleClick={() => setBad(bad + 1)} text="bad" />
     </>
     )}
 
-    const Statistics = () => {
-      const average = (good + neutral + bad) / 3
-    const positive = good / (good + neutral + bad)
+  const Statistic = ({text, stat}) => {
+      return(
+        <tr>
+          <td>{text}</td>
+          <td>{stat}</td>
+        </tr>
+      )
+    }
+
+  const Statistics = () => {
+    const all = good + neutral + bad
+    const average = (1 / all) * (good - bad)
+    const positive = (good / all) * 100
+    if(average > 0){
       return(
         <>
         <h1>Statistics</h1>
-    <p>average {average}</p>
-    <p>positive {positive * 100}%</p>
+        <table>
+        <Statistic text="good" stat={good} />
+        <Statistic text="neutral" stat={neutral} />
+        <Statistic text="bad" stat={bad} />
+        <Statistic text="all" stat={all} />
+        <Statistic text="average" stat={average} />
+        <Statistic text="positive" stat={`${positive} %`} />
+        </table>
       </>
       )}
-
+      return(
+        <>
+        <h1>Statistics</h1>
+        <p>No Feedback Given...</p>
+        </>
+      )
+    }
+     
   return (
     <div className="App">
-     
-     
      <Content good={good} neutral={neutral} bad={bad} />
      <Statistics />
     </div>
