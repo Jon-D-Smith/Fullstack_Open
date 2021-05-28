@@ -28,27 +28,38 @@ function App() {
     )}
 
   const Content = ({good, neutral, bad}) => {
-    const average = (good + neutral + bad) / 3
-    const positive = good / (good + neutral + bad)
+    
     return(
     <>
+    <h1>Give Feedback</h1>
+     <Button handleClick={handleGoodClick} text="good" />
+     <Button handleClick={handleNeutralClick} text="neutral" />
+     <Button handleClick={handleBadClick} text="bad" />
     <p>good {good}</p>
     <p>neutral {neutral}</p>
     <p>bad {bad}</p>
     <p>all {good + neutral + bad}</p>
-    <p>average {average}</p>
-    <p>positive {positive}%</p>
+    
     </>
     )}
 
+    const Statistics = () => {
+      const average = (good + neutral + bad) / 3
+    const positive = good / (good + neutral + bad)
+      return(
+        <>
+        <h1>Statistics</h1>
+    <p>average {average}</p>
+    <p>positive {positive * 100}%</p>
+      </>
+      )}
+
   return (
     <div className="App">
-     <h1>Give Feedback</h1>
-     <Button handleClick={handleGoodClick} text="good" />
-     <Button handleClick={handleNeutralClick} text="neutral" />
-     <Button handleClick={handleBadClick} text="bad" />
-     <h1>Statistics</h1>
+     
+     
      <Content good={good} neutral={neutral} bad={bad} />
+     <Statistics />
     </div>
   );
 }
