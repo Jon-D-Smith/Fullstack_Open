@@ -6,6 +6,7 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filter, setFilter] = useState('')
 
 
   // handling the onChange events in the form
@@ -17,6 +18,14 @@ const App = () => {
     setNewNumber(e.target.value)
   }
 
+  const handleChangeFilter = (e) => {
+    setFilter(e.target.value)
+  }
+
+  // Show people based on filter
+  const personsToShow = filter.length === 0 ? persons : persons.filter(person => person.name.includes(filter))
+
+
   // Adding a new person
   const handleAddPerson = (e) => {
     e.preventDefault() 
@@ -26,6 +35,7 @@ const App = () => {
       number: newNumber
     }
 
+    // Check to see if they exist in the persons array
     const alreadyExists = persons.some(person => person.name === newName);
     if(alreadyExists){
       return alert(`${newName} is already in the phonebook`)
@@ -44,6 +54,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <form >
+        Filter List <input value={filter} onChange={handleChangeFilter} />
+      </form>
+
+      <h2>Add new</h2>
       <form onSubmit={handleAddPerson}>
         <div>
           name: <input value={newName} onChange={handleChangeName} />
@@ -56,15 +71,12 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => {
+      {/* Looping through the persons object to display persons */}
+      {personsToShow.map(person => {
         return(
         <p key={person.id}>{person.name}  {person.number}</p>
 
       )})}
-
-      <div>
-        debug: {newName} {newNumber}
-      </div>
     </div>
   )
 }
