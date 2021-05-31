@@ -12,10 +12,21 @@ const App = () => {
   }
 
   const handleAddName = (e) => {
-    e.preventDefault()
+    e.preventDefault() 
     const newPerson = {id:persons.length+1,name: newName}
-    setPersons(persons.concat(newPerson))
-    setNewName('')
+
+    const alreadyExists = persons.some(person => person.name === newName);
+    if(alreadyExists){
+      return alert(`${newName} is already in the phonebook`)
+
+    } else {
+      return (
+        setPersons(persons.concat(newPerson)),
+        setNewName('')
+      )
+      
+    }
+    
   }
 
   return (
