@@ -2,18 +2,29 @@ import React, { useState } from 'react'
 
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    {id:1, name: 'Arto Hellas' }
-  ]) 
+  // Controlling state
+  const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
+
+  // handling the onChange events in the form
   const handleChangeName = (e) => {
     setNewName(e.target.value)
+  }  
+  
+  const handleChangeNumber = (e) => {
+    setNewNumber(e.target.value)
   }
 
-  const handleAddName = (e) => {
+  // Adding a new person
+  const handleAddPerson = (e) => {
     e.preventDefault() 
-    const newPerson = {id:persons.length+1,name: newName}
+    const newPerson = {
+      id:persons.length+1,
+      name: newName,
+      number: newNumber
+    }
 
     const alreadyExists = persons.some(person => person.name === newName);
     if(alreadyExists){
@@ -22,7 +33,8 @@ const App = () => {
     } else {
       return (
         setPersons(persons.concat(newPerson)),
-        setNewName('')
+        setNewName(''),
+        setNewNumber('')
       )
       
     }
@@ -32,9 +44,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={handleAddName}>
+      <form onSubmit={handleAddPerson}>
         <div>
           name: <input value={newName} onChange={handleChangeName} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={handleChangeNumber} />
         </div>
         <div>
           <button type="submit">add</button>
@@ -43,11 +58,12 @@ const App = () => {
       <h2>Numbers</h2>
       {persons.map(person => {
         return(
-        <p key={person.id}>{person.name}</p>
+        <p key={person.id}>{person.name}  {person.number}</p>
+
       )})}
 
       <div>
-        debug: {newName}
+        debug: {newName} {newNumber}
       </div>
     </div>
   )
