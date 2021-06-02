@@ -12,6 +12,15 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
 
+  const handleDeletePerson = (e) => {
+    e.preventDefault()
+    const id = e.target.id
+    const targetPerson = persons.find(person => person.id == id)
+    const target = targetPerson.name 
+    personService.deleteOne(id, target)
+    
+  }
+
   useEffect(() => {
     personService
     .getAll()
@@ -19,7 +28,7 @@ const App = () => {
       setPersons(initialPersons)
     })
                 
-  }, [])
+  }, [handleDeletePerson])
 
   // handling the onChange events in the form
   const handleChangeName = (e) => {
@@ -64,6 +73,8 @@ const App = () => {
     
   }
 
+
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -84,7 +95,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} handleClick={handleDeletePerson} />
       
     </div>
   )

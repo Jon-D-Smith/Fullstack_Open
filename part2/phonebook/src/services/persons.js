@@ -11,7 +11,17 @@ const create = (newObject) => {
     return request.then(response => response.data)
 }
 
+const deleteOne = (id, target) => {
+    const result = window.confirm(`Do you really want to delete ${target}?`)
+    if(result){
+        const request = axios.delete(`${baseUrl}/${id}`)
+        return request.then(response => response.data)
+    }
+    return
+}
+
 export default  {
     getAll,
-    create
+    create,
+    deleteOne
 }
