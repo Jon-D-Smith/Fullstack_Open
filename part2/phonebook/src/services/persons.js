@@ -20,8 +20,18 @@ const deleteOne = (id, target) => {
     return
 }
 
+const updateOne = (id, target, newObject) => {
+    const result = window.confirm(`${target.name} already exists. Would you like to update their number?`)
+    if(result) {
+        const request = axios.put(`${baseUrl}/${id}`, newObject)
+        return request.then(response => response.data)
+    }
+    return
+}
+
 export default  {
     getAll,
     create,
-    deleteOne
+    deleteOne,
+    updateOne
 }

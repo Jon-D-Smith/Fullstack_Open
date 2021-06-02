@@ -58,7 +58,17 @@ const App = () => {
     // Check to see if they exist in the persons array
     const alreadyExists = persons.some(person => person.name === newName);
     if(alreadyExists){
-      return alert(`${newName} is already in the phonebook`)
+      const target = persons.find(person => person.name === newName)
+      const id = target.id
+      
+      return(
+        
+        personService.updateOne(id, target, newPerson)
+        .then(
+          setNewName(''),
+          setNewNumber('')
+        )
+      )
 
     } else {
       return (
