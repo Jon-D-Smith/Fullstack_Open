@@ -3,7 +3,7 @@ import personService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-
+import Notification from './components/Notification'
 
 const App = () => {
   // Controlling state
@@ -11,6 +11,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState(null)
+  const [messageClass, setMessageClass] = useState('')
 
   const handleDeletePerson = (e) => {
     e.preventDefault()
@@ -66,7 +68,13 @@ const App = () => {
         personService.updateOne(id, target, newPerson)
         .then(
           setNewName(''),
-          setNewNumber('')
+          setNewNumber(''),
+          setMessageClass('success'),
+          setMessage(`${newPerson.name} updated`),
+          setTimeout(() => {
+            setMessage(null)
+            setMessageClass('')
+          }, 5000)
         )
       )
 
@@ -75,7 +83,13 @@ const App = () => {
         personService.create(newPerson)
              .then(returnedPerson => setPersons(persons.concat(returnedPerson)),
              setNewName(''),
-             setNewNumber(''))
+             setNewNumber('')),
+             setMessageClass('success'),
+             setMessage(`${newPerson.name} added`),
+             setTimeout(() => {
+             setMessage(null)
+             setMessageClass('')
+          }, 5000)
         
       )
       
@@ -88,7 +102,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-     
+     <Notification message={message} messageClass={messageClass} />
       <Filter 
       filter={filter} 
       setFilter={setFilter} 
