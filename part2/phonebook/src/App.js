@@ -14,14 +14,7 @@ const App = () => {
   const [message, setMessage] = useState(null)
   const [messageClass, setMessageClass] = useState('')
 
-  const handleDeletePerson = (e) => {
-    e.preventDefault()
-    const id = e.target.id
-    const targetPerson = persons.find(person => person.id == id)
-    const target = targetPerson.name 
-    personService.deleteOne(id, target)
-    
-  }
+
 
   useEffect(() => {
     personService
@@ -30,7 +23,7 @@ const App = () => {
       setPersons(initialPersons)
     })
                 
-  }, [handleDeletePerson])
+  }, [])
 
   // handling the onChange events in the form
   const handleChangeName = (e) => {
@@ -45,8 +38,37 @@ const App = () => {
     setFilter(e.target.value)
   }
 
+
   // Show people based on filter
   const personsToShow = filter.length === 0 ? persons : persons.filter(person => person.name.includes(filter))
+
+
+  //Deleting people
+  const handleDeletePerson = (e) => {
+    e.preventDefault()
+    const id = e.target.id
+    const targetPerson = persons.find(person => person.id == id)
+    const target = targetPerson.name 
+    personService.deleteOne(id, target)
+    .then(
+      setMessageClass('success'),
+      setMessage(`${targetPerson.name} deleted`),
+      setTimeout(() => {
+      setMessage(null)
+      setMessageClass('')
+    }, 5000)
+    
+    )
+    .catch(
+      setMessageClass('error'),
+    setMessage(`${targetPerson.name} has already been removed from the server`),
+    setTimeout(() => {
+      setMessage(null)
+      setMessageClass('')
+    }, 5000)
+    )
+    
+  }
 
   // Adding a new person
   const handleAddPerson = (e) => {

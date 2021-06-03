@@ -15,7 +15,7 @@ const deleteOne = (id, target) => {
     const result = window.confirm(`Do you really want to delete ${target}?`)
     if(result){
         const request = axios.delete(`${baseUrl}/${id}`)
-        return request.then(response => response.data)
+        return request.then(response => console.log(response.data))
     }
     return
 }
