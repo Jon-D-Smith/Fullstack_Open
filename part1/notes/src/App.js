@@ -64,6 +64,20 @@ const App = (props) => {
     setNewNote(e.target.value)
   }
 
+  const Footer = () => {
+    const footerStyle = {
+      color: 'green',
+      fontStyle: 'italic',
+      fontSize: 16
+    }
+    return(
+      <div style={footerStyle}>
+        <br />
+        <em>Note App, Department of Computer Science, University of Helsinki 2021 </em>
+      </div>
+    )
+  }
+
 
 
   const notesToShow = showAll
@@ -84,6 +98,7 @@ const App = (props) => {
         <input value={newNote} onChange={handleNoteChange}/>
         <button type="submit">save</button>
       </form>
+      <Footer />
     </div>
   )
 }
