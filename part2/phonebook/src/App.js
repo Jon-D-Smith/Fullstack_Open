@@ -15,7 +15,6 @@ const App = () => {
   const [messageClass, setMessageClass] = useState('')
 
 
-
   useEffect(() => {
     personService
     .getAll()
@@ -24,6 +23,7 @@ const App = () => {
     })
                 
   }, [])
+ 
 
   // handling the onChange events in the form
   const handleChangeName = (e) => {
@@ -49,6 +49,7 @@ const App = () => {
     const id = e.target.id
     const targetPerson = persons.find(person => person.id == id)
     const target = targetPerson.name 
+    setPersons(persons.filter(person => person.name !== target))
     personService.deleteOne(id, target)
     .then(
       setMessageClass('success'),
@@ -57,16 +58,20 @@ const App = () => {
       setMessage(null)
       setMessageClass('')
     }, 5000)
-    
     )
-    .catch(
-      setMessageClass('error'),
-    setMessage(`${targetPerson.name} has already been removed from the server`),
-    setTimeout(() => {
-      setMessage(null)
-      setMessageClass('')
-    }, 5000)
-    )
+    .catch( error => {
+      return(
+        setMessageClass('error'),
+        setMessage(`${targetPerson.name} has already been removed from the server`),
+        setTimeout(() => {
+          setMessage(null)
+          setMessageClass('')
+        }, 5000)
+      )
+      
+    }
+
+  )
     
   }
 
@@ -118,6 +123,8 @@ const App = () => {
     }
     
   }
+
+ 
 
 
 
