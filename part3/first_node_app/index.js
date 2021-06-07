@@ -58,30 +58,23 @@ app.delete('/api/notes/:id', (req, res) => {
     res.status(204).end()
 })
 
-const generateId = () => {
-    const maxId = notes.length > 0 ? Math.max(...notes.map(note => note.id)) : 0
-    return maxId + 1
-}
-
 app.post('/api/notes', (req, res) => {  
 
     const body = req.body
 
-    if(!body.content) {
-        return res.status(400).json({
-            error: "Content Missing"
-        })
+    if(body.content === undefined){
+        return res.status(400).json({error: 'content missing'})
     }
 
-    const note = {
+    const note = new Note({
         content: body.content,
         important: body.important || false,
-        date: new Date(),
-        id: generateId()
-    }
+        date: new Date()
+    })
 
-    notes = notes.concat(note)
-    res.json(note)
+    note.save().then(savedNote => {
+        res.json(savedNote)
+    })
 })
 
 const PORT = process.env.PORT || 3001
