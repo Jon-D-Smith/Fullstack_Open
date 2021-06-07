@@ -2,6 +2,18 @@ const express= require('express')
 const app = express()
 const cors = require('cors')
 
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/notes-app', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
+
+const noteSchema = new mongoose.Schema({
+content: String,
+date: Date,
+important: Boolean
+})
+
+const Note = mongoose.model('Note', noteSchema)
+
 let notes = [
     {
         id: 1,
@@ -32,7 +44,10 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/notes', (req, res) => {
-    res.json(notes)
+    Note.find({}).then(notes => {
+        res.json(notes)
+    })
+    
 })
 
 app.get('/api/notes/:id', (req, res) => {

@@ -10,14 +10,23 @@ important: Boolean
 
 const Note = mongoose.model('Note', noteSchema)
 
-const note = new Note({
-    content: 'HTML is easy',
-    date: new Date(),
-    important: true
-})
-
-note.save().then(result => {
-    console.log('note saved')
-    console.log(note)
+Note.find({}).then(results => {
+    results.forEach(note => {
+        console.log(note)
+    })
     mongoose.connection.close()
 })
+
+//Generate and save a new note
+
+// const note = new Note({
+//     content: 'HTML is easy',
+//     date: new Date(),
+//     important: true
+// })
+
+// note.save().then(result => {
+//     console.log('note saved')
+//     console.log(note)
+//     mongoose.connection.close()
+// })
