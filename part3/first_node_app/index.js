@@ -92,7 +92,19 @@ app.post('/api/notes', (req, res) => {
     })
 })
 
+app.put('/api/notes/:id', (req, res, next) => {
+    const {content, important} = req.body
+    const note = {
+        content,
+        important
+    }
 
+    Note.findByIdAndUpdate(req.params.id, note, {new:true})
+        .then(updateNote => {
+            res.json(updateNote)
+        })
+        .catch(err => next(err))
+})
 
 const PORT = process.env.PORT || 3001
 
