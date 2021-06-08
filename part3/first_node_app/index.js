@@ -25,9 +25,19 @@ let notes = [
       }
 ]
 
+const errorHandler = (err, req, res, next) => {
+    console.log(err.message)
+
+    if(err.name === 'CastError'){
+        return res.status(400).send({error: "malformatted id"})
+    }
+    next(err)
+}
+app.use(express.static('build'))
 app.use(express.json())
 app.use(cors())
-app.use(express.static('build'))
+app.use(errorHandler)
+
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>')
@@ -40,19 +50,27 @@ app.get('/api/notes', (req, res) => {
     
 })
 
-app.get('/api/notes/:id',  (req, res) => {
+app.get('/api/notes/:id',  (req, res, next) => {
     const id = req.params.id
     Note.findById(id).then(note => {
-        res.json(note)
+        if(note){
+            res.json(note)
+        } else {
+            res.status(404).end()
+        }
+        
     })
+    .catch(err => {err => next(err)})
     
 })
 
 app.delete('/api/notes/:id', (req, res) => {
-    const id = Number(req.params.id)
-    notes = notes.filter(note => note.id !== id)
-    console.log(notes)
-    res.status(204).end()
+    const id = req.params.id
+    Note.findByIdAndRemove(id)
+        .then(result => {
+            res.status(204).end()
+        })
+        .catch(err => next(err))
 })
 
 app.post('/api/notes', (req, res) => {  
@@ -73,6 +91,8 @@ app.post('/api/notes', (req, res) => {
         res.json(savedNote)
     })
 })
+
+
 
 const PORT = process.env.PORT || 3001
 
