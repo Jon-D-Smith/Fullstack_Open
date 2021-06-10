@@ -94,6 +94,7 @@ const App = () => {
         
         personService.updateOne(id, target, newPerson)
         .then(
+          setPersons(persons.map(person => person.id !== id ? person : newPerson)), 
           setNewName(''),
           setNewNumber(''),
           setMessageClass('success'),
@@ -108,16 +109,29 @@ const App = () => {
     } else {
       return (
         personService.create(newPerson)
-             .then(returnedPerson => setPersons(persons.concat(returnedPerson)),
-             setNewName(''),
-             setNewNumber('')),
-             setMessageClass('success'),
-             setMessage(`${newPerson.name} added`),
+             .then(returnedPerson =>{ 
+              setPersons(persons.concat(returnedPerson))
+              setNewName('')
+              setNewNumber('')
+              setMessageClass('success')
+              setMessage(`${newPerson.name} added`)
+              setTimeout(() => {
+              setMessage(null)
+              setMessageClass('')
+           }, 5000)
+            
+            })
+             .catch(error => {
+              setMessageClass('error')
+             setMessage(`${error.response.data.error}`)
+             console.log(error.response.data.error)
              setTimeout(() => {
              setMessage(null)
              setMessageClass('')
           }, 5000)
-        
+             })
+             
+            
       )
       
     }
