@@ -1,26 +1,24 @@
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost:27017/notes-app', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
+const mongoose = require('mongoose')
 
 const noteSchema = new mongoose.Schema({
-content: {
+  content: {
     type: String,
-    minLength: 5,
-    required: true
-},
-date: {
+    required: true,
+    minlength: 5
+  },
+  date: {
     type: Date,
-    require: true
-},
-important: Boolean
+    required: true,
+  },
+  important: Boolean,
 })
 
 noteSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
-        delete returnedObject.__v
-    }
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
 })
 
 module.exports = mongoose.model('Note', noteSchema)

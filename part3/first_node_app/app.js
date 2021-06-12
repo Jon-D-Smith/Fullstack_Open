@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 
 logger.info('connecting to', config.MONGODB_URI)
 
-mongoose.connect(config.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+mongoose.connect('mongodb://localhost:27017/notes-app', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {
     logger.info('connected to MongoDB')
   })
