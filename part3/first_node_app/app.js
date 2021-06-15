@@ -15,7 +15,7 @@ const MONGO_URI = process.env.NODE_ENV === 'test'
   ? testingMongoURI
   : productionMongoURI
 
-mongoose.connect(, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {
     logger.info('connected to MongoDB')
   })
