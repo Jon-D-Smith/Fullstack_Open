@@ -7,16 +7,15 @@ notesRouter.get('/', async (req, res) => {
     
 })
 
-notesRouter.get('/:id', (req, res, next) => {
-    Note.findById(req.params.id)
-        .then(note => {
+notesRouter.get('/:id', async (req, res, next) => {
+   const note = await Note.findById(req.params.id)
+        
             if(note) {
                 res.json(note)
             } else {
                 res.status(404).end()
             }
-        })
-        .catch(error => next(error))
+        
 })
 
 notesRouter.post('/', (req, res, next) => {
