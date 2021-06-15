@@ -9,7 +9,13 @@ const mongoose = require('mongoose')
 
 logger.info('connecting to', config.MONGODB_URI)
 
-mongoose.connect('mongodb://localhost:27017/notes-app', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+const productionMongoURI = 'mongodb://localhost:27017/notes-app'
+const testingMongoURI = 'mongodb://localhost:27017/notes-app-testing'
+const MONGO_URI = process.env.NODE_ENV === 'test'
+  ? testingMongoURI
+  : productionMongoURI
+
+mongoose.connect(, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {
     logger.info('connected to MongoDB')
   })
