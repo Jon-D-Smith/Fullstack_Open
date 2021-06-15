@@ -21,15 +21,15 @@ notesRouter.get('/:id', async (req, res, next) => {
 notesRouter.post('/', async (req, res, next) => {
     const body = req.body
 
-    const note = await new Note({
+    const note = new Note({
         content: body.content,
         important: body.important || false,
         date: new Date()
     })
 
-    await note.save()
+    const savedNote = await note.save()
         
-    res.json(note)
+    res.json(savedNote)
         
 })
 
@@ -48,6 +48,7 @@ notesRouter.put('/:id', async (req, res, next) => {
     }
 
     const updateNote = await Note.findByIdAndUpdate(req.params.id, note, { new: true })
+                            .catch(error => {return res.status(400).end()})
     res.json(updateNote)
         
 })
