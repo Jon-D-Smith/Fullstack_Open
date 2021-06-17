@@ -27,9 +27,15 @@ notesRouter.post('/', async (req, res, next) => {
         date: new Date()
     })
 
-    const savedNote = await note.save()
+    try {
+        const savedNote = await note.save()
         
-    res.json(savedNote)
+        res.json(savedNote)
+    } catch(exception) {
+        next(exception)
+    } 
+
+    
         
 })
 
