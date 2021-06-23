@@ -4,8 +4,6 @@ const loginRouter = require('express').Router()
 const User = require('../models/user')
 require('dotenv').config()
 
-
-
 loginRouter.post('/', async (request, response) => {
     const body = request.body
 
